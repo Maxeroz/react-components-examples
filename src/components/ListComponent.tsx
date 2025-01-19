@@ -9,10 +9,12 @@ import {
   Typography,
   IconButton,
   TextField,
+  Button,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import SaveIcon from "@mui/icons-material/Save";
+import AddIcon from "@mui/icons-material/Add";
 
 interface Item {
   id: number;
@@ -24,9 +26,13 @@ export const ListComponent = () => {
   const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+
   const [editId, setEditId] = useState<number | null>(null);
   const [editName, setEditName] = useState<string>("");
   const [editEmail, setEditEmail] = useState<string>("");
+
+  const [newName, setNewName] = useState<string>("");
+  const [newEmail, setNewEmail] = useState<string>("");
 
   const fetchUrl = "https://jsonplaceholder.typicode.com/users";
 
@@ -68,6 +74,23 @@ export const ListComponent = () => {
     setEditId(null);
   };
 
+  const handleAdd = () => {
+    if (!newName.trim() || !newEmail.trim()) {
+      alert("Поля не могут быть пустыми");
+      return;
+    }
+
+    const newItem: Item = {
+      id: Date.now(),
+      name: newName,
+      email: newEmail,
+    };
+
+    setItems((prevItems) => [...prevItems, newItem]);
+    setNewName("");
+    setNewEmail("");
+  };
+
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", marginTop: 2 }}>
@@ -87,8 +110,34 @@ export const ListComponent = () => {
   return (
     <Box sx={{ margin: 2 }}>
       <Typography variant="h5" component="h2" gutterBottom>
-        Список пользователей
+        Форма добавления пользователя
       </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          marginBottom: 3,
+        }}
+      >
+        <TextField
+          value={newName}
+          onChange={(e) => setNewName(e.target.value)}
+          label="Имя"
+          fullWidth
+        />
+        <TextField
+          value={newEmail}
+          onChange={(e) => setNewEmail(e.target.value)}
+          label="Email"
+          fullWidth
+        />
+        <Button variant="contained" startIcon={<AddIcon />} onClick={handleAdd}>
+          Добавить пользователя
+        </Button>
+      </Box>
+
       <List>
         {items.map((item) => (
           <ListItem

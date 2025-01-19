@@ -81,7 +81,7 @@ function App() {
 
       <FeatureSection>
         <Typography variant="h3" component="h1" gutterBottom>
-          Пример списка данных
+          Список пользователей
         </Typography>
         <ListComponent />
       </FeatureSection>
