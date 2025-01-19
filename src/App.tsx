@@ -1,6 +1,7 @@
-import { styled } from "@mui/material";
+import { styled, Typography } from "@mui/material";
 import { UserProfile } from "./components/UserProfile";
 import { ControlledInput } from "./components/ControlledInput";
+import { UniversalDialog } from "./components/UniversalDialog";
 
 const MainWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -18,16 +19,49 @@ function App() {
     alert(`Вы ввели: ${value}`);
   };
 
+  const handleConfirm = () => {
+    alert("Действие подтверждено!");
+  };
+
+  const handleClose = () => {
+    console.log("Диалог закрыт");
+  };
+
   return (
     <MainWrapper>
-      <h1>Профиль пользователя</h1>
+      <Typography variant="h3" component="h1" gutterBottom>
+        Профиль пользователя.
+      </Typography>
+
       <UserProfile userId={1} />
+
+      <Typography variant="h3" component="h1" gutterBottom>
+        Управляемый инпут.
+      </Typography>
 
       <ControlledInput
         label="Введите текст"
         onChange={handleInputChange}
         onBlur={handleInputBlur}
         initialValue=""
+      />
+
+      <Typography variant="h3" component="h1" gutterBottom>
+        Универсальное модальное окно.
+      </Typography>
+
+      <UniversalDialog
+        title="Подтвердите действие"
+        content={
+          <Typography>
+            Вы уверены, что хотите выполнить это действие?
+          </Typography>
+        }
+        onClose={handleClose}
+        onConfirm={handleConfirm}
+        confirmText="Подтвердить"
+        cancelText="Отменить"
+        triggerButtonText="Открыть диалог"
       />
     </MainWrapper>
   );
